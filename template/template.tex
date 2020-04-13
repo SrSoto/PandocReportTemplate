@@ -1,0 +1,577 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% uamTEMPLATE: PLANTILLA DE uam EN LATEX
+% Manuel Soto Jiménez, Julio de 2019
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Se incluye una muestra del template y un tutorial de su uso en Latex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INICIO DEL PREÁMBULO                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% DEFINICIÓN DEL DOCUMENTO E INCLUSIÓN DE PAQUETES %%%
+
+
+\documentclass[12pt]{book} % 11pt es el tamaño del texto
+\usepackage{geometry}
+ \geometry{ % Ajuste de márgenes
+ a4paper,
+ left=25mm,
+ top=25mm,
+ right=25mm,
+ bottom=25mm,
+ includeheadfoot,
+ heightrounded
+ }
+%\usepackage{showframe}
+\usepackage[firstpage=True]{background} % edición de background para la primera página (las líneas verticales a la izquierda)
+\usepackage[spanish]{babel} % lenguaje español
+\usepackage{titlesec} % seccionado de títulos
+\usepackage{titling} % edición de la portada
+\usepackage{fontspec}
+\usepackage{color} % creación de colores por defecto
+\usepackage{xcolor,colortbl} % uso de los colores en texto seleccionado
+\usepackage{fancyhdr} % edición de headers y footers
+\usepackage{setspace} % espaciado interlineal
+\usepackage{array} % instanciación de columnas (edición de las reglas verticales de la portada)
+\usepackage{titletoc} % Edición del índice (puntos, página...)
+\usepackage[subfigure]{tocloft} % Edición del índice (colores y hrule)
+\usepackage{anyfontsize} % Tamaños de letra personalizados
+\usepackage[inline,shortlabels]{enumitem} % Edición de las enumeraciones
+\usepackage[colorlinks = true,
+            linkcolor = black,
+            urlcolor  = blue,
+            citecolor = black,
+            anchorcolor = blue]{hyperref} % URL's y colores
+\usepackage{colortbl} % Colores de las tablas
+\usepackage{multirow} % Tabla de la portada
+\usepackage{listings} % Para escribir código
+\usepackage{realboxes} % Para resaltar código
+\usepackage{svg}
+\usepackage{enumitem}
+\usepackage{etoolbox}
+\usepackage{longtable}
+\usepackage{subfigure}
+\usepackage{ifthen}
+
+%%% IMPORTANTE: DEFINICIÓN DE MACROS DEL DOCUMENTO %%%
+
+
+% Introduce aquí el título del documento
+\newcommand{\titulo}{Informe Técnico de Especificación Inicial del Software de CibiUAM}
+% Introduce aquí el subtítulo del documento
+\newcommand{\subtitulo}{Proyecto de Ingeniería del Software}
+% Introduce aquí el nombre de la imagen de Logo uam a usar
+\newcommand{\uamlogo}{UAM-Siglas.png}
+\newcommand{\uamlogoheader}{UAM-Logo.png}
+% Carpeta con las imágenes
+\graphicspath{{./img/}}
+% Ajustar aquí tamaño del logo
+\def\uamlogoscale{0.07}
+\def\uamlogoheaderscale{0.04}
+\newcounter{informepara}
+% IMPORTANTE: informepara = 1 si este documento va para una empresa o entidad distinta a la uam. 0 en caso contrario
+\setcounter{informepara}{0}
+% Introduce aquí el nombre del archivo de los logos de las empresas o entidades para los que va destinado el informe
+\newcommand{\logoa}{none.png}
+\newcommand{\logob}{none.png}
+\newcommand{\logoc}{none.png}
+% IMPORTANTE: versiones = 1 si va a aparecer un historial de veriones. De lo contrario, 0.
+\newcounter{versiones}
+\setcounter{versiones}{0}
+% IMPORTANTE: resumen = 1 si va a aparecer un resumen del documento. De lo contrario, 0.
+\newcounter{resumen}
+\setcounter{resumen}{0}
+% Igual que los counters anteriores para mostrar listas de figuras o de tablas
+\newcounter{figuras}
+\setcounter{figuras}{0}
+\newcounter{tablas}
+\setcounter{tablas}{0}
+% Introduce aquí el nombre de los autores (hasta cuatro)
+\newcommand{\autora}{Carlos Molinero Alvarado}
+\newcommand{\autorb}{Rafael Sánchez Sánchez}
+\newcommand{\autorc}{Alejandro Santorum Varela}
+\newcommand{\autord}{Manuel Soto Jiménez}
+% Introduce aquí datos de la dirección del centro
+\newcommand{\calle}{Ciudad Universitaria de Cantoblanco}
+\newcommand{\codigopostal}{28049 Madrid}
+\newcommand{\telefonoa}{+34 91 497 50 00}
+\newcommand{\fax}{+34 91 497 50 00}
+\newcommand{\correo}{informacion.general@uam.es}
+\newcommand{\web}{http://www.uam.es}
+
+
+%%% DEFINICIÓN DE COLORES uam %%%
+
+
+% Color corporativo y gradaciones tonales (green_uam_X)
+\definecolor{green_uam}{HTML}{7fc200}
+\definecolor{green_uam_1}{RGB}{108, 35, 13}
+\definecolor{green_uam_2}{RGB}{162, 52, 19}
+\definecolor{green_uam_3}{RGB}{238, 140, 110}
+\definecolor{green_uam_4}{RGB}{244, 178, 159}
+\definecolor{green_uam_5}{RGB}{249, 217, 207}
+\definecolor{green_uam_6}{RGB}{255, 237, 227}
+
+% Colores secundarios
+\definecolor{uam_gray}{RGB}{191,191,191}
+\definecolor{uam_blue}{RGB}{0, 89, 156}
+\definecolor{uam_green}{RGB}{143, 212, 0}
+\definecolor{uam_yellow}{RGB}{253, 184, 19}
+\definecolor{uam_pink}{RGB}{173, 0, 117}
+
+% Color de la línea vertical de la portada (recomendable no tocar)
+\definecolor{uam_title}{RGB}{209, 68, 20}
+
+
+
+%%% DEFINICION DE TIPOGRAFÍAS ESTANDAR %%%
+
+
+\setmainfont{Arial} % Fuente principal
+\titleformat{\chapter}[block] % Capítulos (Secciones principales)
+    {\color{green_uam}\bfseries\fontsize{20}{12}\selectfont}{\thechapter.}{8pt}{}
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+    
+\titleformat{\section} % Secciones
+    {\color{green_uam}\bfseries\fontsize{14}{12}\selectfont}{\thesection.}{8pt}{}
+\titleformat{\subsection} % Subsecciones
+     {\color{green_uam}\bfseries}{\thesubsection.}{8pt}{}
+\titleformat{\subsubsection} % Subsubsecciones
+     {\color{green_uam}\bfseries}{\thesubsubsection}{8pt}{}
+     
+\renewcommand{\maketitlehooka}{\headingfont}
+
+
+%%% CONSTRUCCIÓN DEL BACKGROUND DE LA PORTADA %%%
+
+
+\SetBgScale{1}
+\SetBgAngle{0}
+\SetBgColor{black}
+\SetBgContents{\textcolor{green_uam}{\rule{60pt}{\paperheight}}\textcolor{uam_gray}{\rule{25pt}{\paperheight}}}
+\SetBgHshift{-10.35cm}
+
+
+%%% DEFINICIÓN DE FOOTER Y HEADER DEL DOCUMENTO %%%
+
+\setlength{\skip\footins}{0.5cm}
+\setlength{\footskip}{6pt}
+
+% Footer de la portada
+
+\newcolumntype{?}{!{\textcolor{green_uam}{\vrule width 2pt}\textcolor{uam_gray}{\vrule width 2pt}}}
+
+\fancypagestyle{firstpage}{%
+\renewcommand{\headrulewidth}{0.0pt}
+    \rhead{}
+    \lhead{}
+    \lfoot{\vspace{0.65ex}
+    \begin{tabular}{l}
+    \fontsize{8}{12}\selectfont
+\autora  \\
+\fontsize{8}{12}\selectfont
+\autorb   \\
+\fontsize{8}{12}\selectfont
+\autorc \\
+\fontsize{8}{12}\selectfont
+\autord      
+\end{tabular}}
+    \rfoot{\vspace{0.65ex}
+\def\arraystretch{0.5}
+\begin{tabular}{lr?}
+\multirow{6}{*}{\includegraphics[scale=\uamlogoscale]{\uamlogo}} & \fontsize{8}{12}\selectfont \calle \\
+ & \fontsize{8}{12}\selectfont \codigopostal \\
+ & \fontsize{8}{12}\selectfont Tlf.: \telefonoa \\
+ & \fontsize{8}{12}\selectfont Fax: \fax \\
+ & \fontsize{8}{12}\selectfont \href{mailto:\correo}{\correo} \\
+ & \fontsize{8}{12}\selectfont \href{\web}{\web} \\
+ &  \\
+ &  \\
+ & \\
+ & \\
+ & \\
+ & \\
+ & \\
+ & \\
+\end{tabular}}
+}
+
+\fancypagestyle{plain}{%
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\includegraphics[scale=\uamlogoheaderscale]{\uamlogoheader}}
+
+% IMPORTANTE: Si hay un número distinto de tres logos, cambiarlo aquí
+\ifnum \value{informepara}>0
+{
+    \rhead{
+        \includegraphics[scale=1.5]{\logoa} 
+        \includegraphics[scale=1.2]{\logob}
+        \includegraphics[scale=0.15]{\logoc}
+        }
+    }
+\fi
+\lfoot{\textcolor{white}{.} \\
+    \textcolor{green_uam}{\textbf{\fontsize{8}{12}\selectfont\titulo}} | \fontsize{8}{12}\selectfont \subtitulo}
+\rfoot{\textcolor{white}{.} \\ \thepage}
+
+}
+
+
+\fontsize{11}{12}\selectfont
+
+% Header y footer común
+
+\makeatletter
+\def\headrule{{%
+   \if@fancyplain\let\headrulewidth\plainheadrulewidth\fi
+   {\color{green_uam}\hrule\@height\headrulewidth\@width\headwidth}%
+   %\vskip 2pt%
+   {\color{uam_gray}\hrule\@height\headrulewidth\@width\headwidth\vskip-\headrulewidth\vskip-1.5pt}
+}}
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\includegraphics[scale=\uamlogoheaderscale]{\uamlogoheader}}
+
+% IMPORTANTE: Si hay un número distinto de tres logos, cambiarlo aquí
+\ifnum \value{informepara}>0
+{
+    \rhead{
+        \includegraphics[scale=1.5]{\logoa} 
+        \includegraphics[scale=1.2]{\logob}
+        \includegraphics[scale=0.15]{\logoc}
+        }
+}
+\fi
+
+\lfoot{\textcolor{white}{.} \\
+    \textcolor{green_uam}{\textbf{\fontsize{8}{12}\selectfont\titulo}} | \fontsize{8}{12}\selectfont \subtitulo}
+\rfoot{\textcolor{white}{.} \\ \thepage}
+
+
+
+
+
+\interfootnotelinepenalty=10000
+
+%%% EDICIÓN DEL ÍNDICE %%%
+
+% Formato lista de tablas y lista de figuras
+
+% Formateo de colores de hyperrefs
+\makeatletter
+\let\stdl@section\l@section
+\renewcommand*{\l@section}[2]{%
+  \stdl@section{\textcolor{green_uam}{#1}}{\textcolor{green_uam}{#2}}}
+\let\stdl@subsection\l@subsection
+\renewcommand*{\l@subsection}[2]{%
+  \stdl@subsection{\textcolor{uam_gray}{#1}}{\textcolor{uam_gray}{#2}}}
+\let\stdl@subsubsection\l@subsubsection
+\renewcommand*{\l@subsubsection}[2]{%
+  \stdl@subsubsection{\textcolor{uam_gray}{#1}}{\textcolor{uam_gray}{#2}}}
+\makeatother
+ 
+
+%%% REDEFINICION DE ITEMIZE: Usar 'uamitemize' %%%
+
+
+\newenvironment{uamitemize}{\begin{itemize}[label=\textcolor{green_uam}{\textbullet}]}{\end{itemize}}
+
+%%% REDEFINICION DE ENUMERATE: Usar 'uamenumerate' %%%
+
+\newenvironment{uamenumerate}{\begin{enumerate}[\begingroup\color{green_uam}1.\endgroup]\itemsep -2pt}{\end{enumerate}}
+
+
+%%% DEFINICION DE ESTRUCTURA DE GRÁFICOS %%%
+\newcounter{graphs}
+
+\newcommand{\uamgraph}[4]{
+\begin{center}
+    \begin{figure}[!h]
+        \centering
+        \caption[#1]{\textbf{#1} \protect \footnotemark}
+        
+        \includegraphics[scale=#4]{#2}
+        
+    \end{figure}
+    \footnotetext{Fuente: #3}
+\end{center}
+}
+        
+        
+
+
+%%% DEFINICION DE ESTRUCTURA DE TABLAS %%%
+\newcounter{tables}
+
+% Tabla introducida manualmente en Latex
+\newenvironment{uamtabular}[2]
+    {\def\myenvargumentII{#2}
+    \stepcounter{tables}
+    \arrayrulecolor{green_uam}
+    \begin{table}[!h]
+    \centering
+    \textbf{Tabla \thetables. #1}}
+    {\begin{flushleft}\myenvargumentII\end{flushleft}
+    \end{table}}
+
+% Tabla dada como imagen
+\newcommand{\uamtable}[3]{
+    \stepcounter{tables}
+    \begin{table}[!h]
+        \centering
+        \arrayrulecolor{uam_gray}
+    \begin{tabular}{c}
+        \textbf{Tabla \thetables. #1}  \\
+        \includegraphics[]{#2}                       \\
+        \multicolumn{1}{l}{\fontsize{8}{8}\selectfont#3}
+    \end{tabular}
+\end{table}}
+
+\renewcommand{\baselinestretch}{1.0}
+
+
+%%% DEFINICION DE BLOQUES DE CODIGO %%%
+
+% El siguiente codigo quizas sea dificil de comprender.
+% La intencion esta en redefinir el codigo inline para dar un estilo apropiado.
+
+\usepackage{etoolbox}
+\usepackage{atbegshi,ifthen,tikz}
+
+\tikzstyle{highlighter} = [
+  green_uam_6, % Cambiar aqui el nombre del color del background del codigo inline
+  line width = \baselineskip,
+]
+
+
+% Logica del compilador de latex para el highlight.
+% Cero recomendable cambiar alguna linea.
+\newcounter{highlight}[page]
+\newcommand{\tikzhighlightanchor}[1]{\ensuremath{\vcenter{\hbox{\tikz[remember picture, overlay]{\coordinate (#1 highlight \arabic{highlight});}}}}}
+\newcommand{\bh}[0]{\stepcounter{highlight}\tikzhighlightanchor{begin}}
+\newcommand{\eh}[0]{\tikzhighlightanchor{end}}
+\AtBeginShipout{\AtBeginShipoutUpperLeft{\ifthenelse{\value{highlight} > 0}{\tikz[remember picture, overlay]{\foreach \stroke in {1,...,\arabic{highlight}} \draw[highlighter] (begin highlight \stroke) -- (end highlight \stroke);}}{}}}
+
+
+\makeatletter %
+\newtoggle{@InInlineListing}%
+\togglefalse{@InInlineListing}%
+
+\renewcommand\lstinline[1][]{%
+    \leavevmode\bgroup\toggletrue{@InInlineListing}\bh %
+      \def\lst@boxpos{b}%
+      \lsthk@PreSet\lstset{flexiblecolumns,#1}%
+      \lsthk@TextStyle
+      \@ifnextchar\bgroup{\afterassignment\lst@InlineG \let\@let@token}%
+      \lstinline@}%
+
+\def\lst@LeaveAllModes{%
+    \ifnum\lst@mode=\lst@nomode
+        \expandafter\lsthk@EndGroup\iftoggle{@InInlineListing}{\eh{}}{}%
+    \else
+        \expandafter\egroup\expandafter\lst@LeaveAllModes
+    \fi%
+    }
+\makeatother
+
+
+\lstset{backgroundcolor=\color{green_uam_6}}
+
+\lstdefinestyle{uamcode}{
+    backgroundcolor=\color{green_uam_6},   
+    commentstyle=\color{uam_gray},
+    keywordstyle=\color{green_uam},
+    numberstyle=\tiny\color{green_uam_1},
+    stringstyle=\color{uam_green},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=uamcode}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FIN DEL PREÁMBULO                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INICIO DEL DOCUMENTO                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\frontmatter
+%% PORTADA %%
+
+\thispagestyle{firstpage}
+
+\vspace*{13em}
+
+{\setstretch{2.0}
+\begin{flushright}
+    \textcolor{green_uam}{\bfseries\fontsize{30}{12}\selectfont \titulo} \\
+    {\fontsize{22}{12}\selectfont \subtitulo} \\
+    \fontsize{16}{12}\selectfont \today %% IMPORTANTE: FECHA
+    \\
+    \fontsize{12}{12}\selectfont Versión 1.0
+\end{flushright}}
+
+%% TABLA 'INFORME PARA' %%
+
+\ifnum \value{informepara}>0
+{
+\begin{flushright}
+\makebox[\textwidth][r]{%
+\arrayrulecolor[RGB]{216,69,25}
+\begin{tabular}{l!{\color[RGB]{193,193,193}\vrule}l} 
+\hline
+% IMPORTANTE: Cambiar aquí en caso de variar el numero de logos (Consejo: scale = 0)
+Informe realizado para &
+\includegraphics[scale=0]{\logoa}\\
+&   \includegraphics[scale=0]{\logob}\\
+& \includegraphics[scale=0]{\logoc}
+\end{tabular}
+\arrayrulecolor{black}}
+\end{flushright}
+}
+\fi
+\clearpage
+
+%% INDICE %%
+\addtocontents{toc}{\protect\thispagestyle{fancy}}
+\addtocontents{lof}{\protect\thispagestyle{fancy}}
+
+\renewcommand{\headrulewidth}{2pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\headheight}{32pt}
+
+\renewcommand{\contentsname}{\textbf{Índice}}
+\renewcommand{\listfigurename}{\textbf{Lista de figuras}}
+\renewcommand{\listtablename}{\textbf{Lista de tablas}}
+
+\renewcommand{\cftchapfont}{\bfseries\Large\color{green_uam}}
+\renewcommand\cftchappagefont{\color{green_uam}}
+\renewcommand{\cftpartfont}{\bfseries\Large}
+\renewcommand{\cftsecfont}{\large\bfseries}
+\renewcommand{\cftsubsecfont}{}
+
+
+
+\setlength{\cftbeforesecskip}{0.2cm}
+
+\setlength{\cftbeforetoctitleskip}{0.5cm}
+\renewcommand{\cfttoctitlefont}{\Huge\color{green_uam}}
+
+\setlength{\cftbeforelottitleskip}{0.5cm}
+\renewcommand{\cftlottitlefont}{\Huge\color{green_uam}}
+
+\setlength{\cftbeforeloftitleskip}{0.5cm}
+\renewcommand{\cftloftitlefont}{\Huge\color{green_uam}}
+
+\makeatletter
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+\makeatother
+
+\ifnum \value{resumen}>0
+{
+    
+    
+    \chapter*{Historial de Versiones}
+    
+    \begin{center}
+        \begin{tabular}{c|c|c}
+            \bfseries Fecha & \bfseries Versión & \bfseries Descripción \\
+            \hline
+            08/03/2020 & 1.0 & Entrega del documento\\
+            \hline
+            07/03/2020 & 0.7 & Anexos y tablas\\
+            \hline
+            06/03/2020 & 0.6 & Conclusiones y referencias\\
+            \hline
+            05/03/2020 & 0.5 & Diseño conceptual y visual\\
+            \hline
+            03/03/2020 & 0.4.2 & Objetivos y funcionalidad\\
+            \hline
+            02/03/2020 & 0.4.1 & Definición del proyecto\\
+            \hline
+            29/02/2020 & 0.3 & Introducción\\
+            \hline
+            26/02/2020 & 0.2.2 & Listado de requisitos no funcionales\\
+            \hline
+            25/02/2020 & 0.2.1 & Listado de requisitos funcionales\\
+            \hline
+            23/02/2020 & 0.1 & Construcción de la plantilla del documento\\
+            \hline
+        \end{tabular}
+    \end{center}
+    
+\newpage
+}
+\fi
+
+\ifnum \value{resumen}>0
+{
+\chapter*{Resumen del Documento}
+
+
+
+\newpage
+}
+\fi
+
+
+%% Set figures and tables when we have any of them with cftfig/cftsubfig cfttab/cftsubtab
+
+{
+\hypersetup{hidelinks}
+\tableofcontents
+\newpage
+\ifnum \value{figuras}>0
+{
+\listoffigures
+}
+\fi
+\ifnum \value{tablas}>0
+{
+\listoftables
+}
+\fi
+}
+\newpage
+
+\renewcommand{\chaptername}{}
+
+% \setlength{\parindent}{-0.1em}
+% \setlength{\parskip}{1em}
+% \renewcommand{\baselinestretch}{1}
+
+
+%%% COMIENZO DEL DOCUMENTO %%%
+% Aquí empieza la preview. A partir de aquí comenzar a editar:
+
+\mainmatter
+
+$body$
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% FIN    DEL DOCUMENTO                                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
