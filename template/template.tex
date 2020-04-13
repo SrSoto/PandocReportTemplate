@@ -48,6 +48,7 @@
 \usepackage{multirow} % Tabla de la portada
 \usepackage{listings} % Para escribir código
 \usepackage{realboxes} % Para resaltar código
+\usepackage{float}
 \usepackage{svg}
 \usepackage{enumitem}
 \usepackage{etoolbox}
@@ -308,6 +309,8 @@ $endif$
 
 %%% DEFINICION DE ESTRUCTURA DE GRÁFICOS %%%
 \newcounter{graphs}
+
+\floatplacement{figure}{!h}
 
 \newcommand{\uamgraph}[4]{
 \begin{center}
