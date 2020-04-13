@@ -94,6 +94,8 @@ Ya solo queda generar el `.pdf`. Simplemente, desde la raíz de este repositorio
 ```
 make pdf
 ```
+Y lo tendrás en `My_Report.pdf`.
+
 
 ## Licencia
 
