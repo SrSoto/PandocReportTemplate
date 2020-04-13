@@ -54,17 +54,37 @@
 \usepackage{longtable}
 \usepackage{subfigure}
 \usepackage{ifthen}
+$if(verbatim-in-note)$
+\usepackage{fancyvrb}
+$endif$
+
+$if(verbatim-in-note)$
+\VerbatimFootnotes % -- allows verbatim text in footnotes
+$endif$
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
 
 %%% IMPORTANTE: DEFINICIÓN DE MACROS DEL DOCUMENTO %%%
 
 
 % Introduce aquí el título del documento
-\newcommand{\titulo}{Informe Técnico de Especificación Inicial del Software de CibiUAM}
+%\newcommand{\titulo}{Informe Técnico de Especificación Inicial del Software de CibiUAM}
+\newcommand{\titulo}{$title$}
 % Introduce aquí el subtítulo del documento
-\newcommand{\subtitulo}{Proyecto de Ingeniería del Software}
+\newcommand{\subtitulo}{$subtitle$}
 % Introduce aquí el nombre de la imagen de Logo uam a usar
 \newcommand{\uamlogo}{UAM-Siglas.png}
 \newcommand{\uamlogoheader}{UAM-Logo.png}
+\newcommand{\fecha}{
+	$if(date)$
+	$date$
+	$else$
+	\today
+	$endif$
+	}
 % Carpeta con las imágenes
 \graphicspath{{./img/}}
 % Ajustar aquí tamaño del logo
@@ -72,27 +92,28 @@
 \def\uamlogoheaderscale{0.04}
 \newcounter{informepara}
 % IMPORTANTE: informepara = 1 si este documento va para una empresa o entidad distinta a la uam. 0 en caso contrario
-\setcounter{informepara}{0}
+\setcounter{informepara}{$informepara$}
 % Introduce aquí el nombre del archivo de los logos de las empresas o entidades para los que va destinado el informe
 \newcommand{\logoa}{none.png}
 \newcommand{\logob}{none.png}
 \newcommand{\logoc}{none.png}
 % IMPORTANTE: versiones = 1 si va a aparecer un historial de veriones. De lo contrario, 0.
 \newcounter{versiones}
-\setcounter{versiones}{0}
+\setcounter{versiones}{$versiones$}
 % IMPORTANTE: resumen = 1 si va a aparecer un resumen del documento. De lo contrario, 0.
 \newcounter{resumen}
-\setcounter{resumen}{0}
+\setcounter{resumen}{$resumen$}
 % Igual que los counters anteriores para mostrar listas de figuras o de tablas
 \newcounter{figuras}
-\setcounter{figuras}{0}
+\setcounter{figuras}{$figuras$}
 \newcounter{tablas}
-\setcounter{tablas}{0}
+\setcounter{tablas}{$tablas$}
 % Introduce aquí el nombre de los autores (hasta cuatro)
-\newcommand{\autora}{Carlos Molinero Alvarado}
-\newcommand{\autorb}{Rafael Sánchez Sánchez}
-\newcommand{\autorc}{Alejandro Santorum Varela}
-\newcommand{\autord}{Manuel Soto Jiménez}
+\newcommand{\authors}{
+	$for(author)$
+	$author$\\
+	$endfor$
+	}
 % Introduce aquí datos de la dirección del centro
 \newcommand{\calle}{Ciudad Universitaria de Cantoblanco}
 \newcommand{\codigopostal}{28049 Madrid}
@@ -107,12 +128,12 @@
 
 % Color corporativo y gradaciones tonales (green_uam_X)
 \definecolor{green_uam}{HTML}{7fc200}
-\definecolor{green_uam_1}{RGB}{108, 35, 13}
-\definecolor{green_uam_2}{RGB}{162, 52, 19}
-\definecolor{green_uam_3}{RGB}{238, 140, 110}
-\definecolor{green_uam_4}{RGB}{244, 178, 159}
-\definecolor{green_uam_5}{RGB}{249, 217, 207}
-\definecolor{green_uam_6}{RGB}{255, 237, 227}
+\definecolor{green_uam_1}{HTML}{95e600}
+\definecolor{green_uam_2}{HTML}{afff1a}
+\definecolor{green_uam_3}{HTML}{c1ff4d}
+\definecolor{green_uam_4}{HTML}{c9ff66}
+\definecolor{green_uam_5}{HTML}{dbff99}
+\definecolor{green_uam_6}{HTML}{e4ffb3}
 
 % Colores secundarios
 \definecolor{uam_gray}{RGB}{191,191,191}
@@ -143,6 +164,8 @@
      
 \renewcommand{\maketitlehooka}{\headingfont}
 
+% Salto de página tras el final de cada sección
+%\newcommand{\chapterbreak}{\clearpage}
 
 %%% CONSTRUCCIÓN DEL BACKGROUND DE LA PORTADA %%%
 
@@ -168,16 +191,11 @@
     \rhead{}
     \lhead{}
     \lfoot{\vspace{0.65ex}
-    \begin{tabular}{l}
     \fontsize{8}{12}\selectfont
-\autora  \\
-\fontsize{8}{12}\selectfont
-\autorb   \\
-\fontsize{8}{12}\selectfont
-\autorc \\
-\fontsize{8}{12}\selectfont
-\autord      
-\end{tabular}}
+    \begin{tabular}{l}
+		\authors
+		\end{tabular}
+		}
     \rfoot{\vspace{0.65ex}
 \def\arraystretch{0.5}
 \begin{tabular}{lr?}
@@ -387,10 +405,10 @@
 \lstdefinestyle{uamcode}{
     backgroundcolor=\color{green_uam_6},   
     commentstyle=\color{uam_gray},
-    keywordstyle=\color{green_uam},
+    keywordstyle=\color{uam_pink},
     numberstyle=\tiny\color{green_uam_1},
-    stringstyle=\color{uam_green},
-    basicstyle=\footnotesize,
+    stringstyle=\color{uam_blue},
+    basicstyle=\footnotesize\ttfamily,
     breakatwhitespace=false,         
     breaklines=true,                 
     captionpos=b,                    
@@ -427,9 +445,13 @@
 \begin{flushright}
     \textcolor{green_uam}{\bfseries\fontsize{30}{12}\selectfont \titulo} \\
     {\fontsize{22}{12}\selectfont \subtitulo} \\
-    \fontsize{16}{12}\selectfont \today %% IMPORTANTE: FECHA
-    \\
-    \fontsize{12}{12}\selectfont Versión 1.0
+    \fontsize{16}{12}\selectfont \fecha %% IMPORTANTE: FECHA
+		\ifnum \value{versiones}>0
+		{
+			\\
+			\fontsize{12}{12}\selectfont Versión \value{versiones}
+		}
+		\fi
 \end{flushright}}
 
 %% TABLA 'INFORME PARA' %%
@@ -485,10 +507,10 @@ Informe realizado para &
 \renewcommand{\cftloftitlefont}{\Huge\color{green_uam}}
 
 \makeatletter
-\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{\newpage}{}{}
 \makeatother
 
-\ifnum \value{resumen}>0
+\ifnum \value{versiones}>0
 {
     
     
@@ -529,7 +551,7 @@ Informe realizado para &
 {
 \chapter*{Resumen del Documento}
 
-
+$include-before$
 
 \newpage
 }
