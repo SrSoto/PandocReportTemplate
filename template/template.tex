@@ -1,9 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% uamTEMPLATE: PLANTILLA DE uam EN LATEX
+% UAMTEMPLATE: PLANTILLA DE UAM EN LATEX
 % Manuel Soto Jiménez, Julio de 2019
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Se incluye una muestra del template y un tutorial de su uso en Latex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % INICIO DEL PREÁMBULO                                      %
@@ -77,8 +75,8 @@ $endif$
 % Introduce aquí el subtítulo del documento
 \newcommand{\subtitulo}{$subtitle$}
 % Introduce aquí el nombre de la imagen de Logo uam a usar
-\newcommand{\uamlogo}{UAM-Siglas.png}
-\newcommand{\uamlogoheader}{UAM-Logo.png}
+\newcommand{\uamlogo}{$logo$}
+\newcommand{\uamlogoheader}{$logoheader$}
 \newcommand{\fecha}{
 	$if(date)$
 	$date$
@@ -86,18 +84,16 @@ $endif$
 	\today
 	$endif$
 	}
-% Carpeta con las imágenes
-\graphicspath{{./img/}}
 % Ajustar aquí tamaño del logo
-\def\uamlogoscale{0.07}
-\def\uamlogoheaderscale{0.04}
+\def\uamlogoscale{$if(logoscale)$$logoscale$$else$0.07$endif$}
+\def\uamlogoheaderscale{$if(logoheaderscale)$$logoheaderscale$$else$0.04$endif$}
 \newcounter{informepara}
 % IMPORTANTE: informepara = 1 si este documento va para una empresa o entidad distinta a la uam. 0 en caso contrario
 \setcounter{informepara}{$informepara$}
 % Introduce aquí el nombre del archivo de los logos de las empresas o entidades para los que va destinado el informe
-\newcommand{\logoa}{none.png}
-\newcommand{\logob}{none.png}
-\newcommand{\logoc}{none.png}
+\newcommand{\logoa}{$if(logoa)$$logoa$$else$none.png$endif$}
+\newcommand{\logob}{$if(logob)$$logob$$else$none.png$endif$}
+\newcommand{\logoc}{$if(logoc)$$logoc$$else$none.png$endif$}
 % IMPORTANTE: versiones = 1 si va a aparecer un historial de veriones. De lo contrario, 0.
 \newcounter{versiones}
 \setcounter{versiones}{$versiones$}
@@ -468,9 +464,9 @@ $endif$
 \hline
 % IMPORTANTE: Cambiar aquí en caso de variar el numero de logos (Consejo: scale = 0)
 Informe realizado para &
-\includegraphics[scale=0]{\logoa}\\
-&   \includegraphics[scale=0]{\logob}\\
-& \includegraphics[scale=0]{\logoc}
+\includegraphics[scale=\logoascale]{\logoa}\\
+&   \includegraphics[scale=\logobscale]{\logob}\\
+& \includegraphics[scale=\logobscale]{\logoc}
 \end{tabular}
 \arrayrulecolor{black}}
 \end{flushright}
